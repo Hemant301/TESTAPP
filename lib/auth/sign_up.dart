@@ -1,5 +1,6 @@
 import "package:flutter/material.dart";
 import 'package:flutter/services.dart';
+import 'package:test_app/api/authApi.dart';
 
 import '../component/textfild.dart';
 import 'package:email_validator/email_validator.dart';
@@ -13,10 +14,12 @@ class signUpPage extends StatefulWidget {
 }
 
 class _signUpPageState extends State<signUpPage> {
-  TextEditingController filenameController = TextEditingController();
+  TextEditingController firstnameController = TextEditingController();
   TextEditingController lastnameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+  TextEditingController countryController = TextEditingController();
+  TextEditingController mobileController = TextEditingController();
   TextEditingController confirmPasswordController = TextEditingController();
   bool activindex = false;
   bool isHidden = true;
@@ -163,15 +166,16 @@ class _signUpPageState extends State<signUpPage> {
                 Center(
                   child: TextfileCom(
                     title: "First Name*",
-                    controller: filenameController,
+                    controller: firstnameController,
                     border: Border.all(
-                        color: filenameController.text == null ||
-                                filenameController.text == ""
+                        color: firstnameController.text == null ||
+                                firstnameController.text == ""
                             ? Colors.red
                             : Colors.black),
                   ),
                 ),
-                filenameController.text == null || filenameController.text == ""
+                firstnameController.text == null ||
+                        firstnameController.text == ""
                     ? Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Text("Please enter first name.",
@@ -496,8 +500,17 @@ class _signUpPageState extends State<signUpPage> {
                   height: MediaQuery.of(context).size.width / 20,
                 ),
                 InkWell(
-                  onTap: () {
+                  onTap: () async {
+                    Map data = await authApi.doLogin(
+                        activindex == true ? "Provider" : "Families",
+                        firstnameController.text,
+                        lastnameController.text,
+                        emailController.text,
+                        "India",
+                        mobileController.text,
+                        passwordController.text);
                     Navigator.pushReplacementNamed(context, "/homepage");
+                    return;
                   },
                   child: Container(
                     padding: EdgeInsets.all(10),
