@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:test_app/util/storage.dart';
 
 import 'auth/homepage.dart';
 import 'auth/sign_up.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await StorageUtil.getInstance();
   runApp(const MyApp());
 }
 
